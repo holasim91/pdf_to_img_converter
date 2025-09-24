@@ -162,9 +162,6 @@ function App() {
               >
                 {isConverting ? 'Converting...' : 'Start Conversion'}
               </button>
-              <div style={{ fontSize: '10px', color: 'red', marginTop: '5px' }}>
-                DEBUG: isConverting={isConverting.toString()}, files.length={files.length}
-              </div>
             </div>
 
             {files.map((file, index) => {
