@@ -68,7 +68,7 @@ yarn test:coverage
 ```
 src/
 ├── components/
-│   └── icons/              # SVG 아이콘 컴포넌트들
+│   └── icons/              # SVG 아이콘 컴포넌트들(아이콘 뽑은게 너무 구려서 적용은 안함)
 │       ├── PdfToImageLogo.tsx
 │       ├── UploadIcon.tsx
 │       ├── ProgressIcon.tsx
