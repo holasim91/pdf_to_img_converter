@@ -23,6 +23,11 @@ function App() {
     console.log('Options changed in App component:', options)
   }, [options])
 
+  // fileProgresses 상태 모니터링
+  useEffect(() => {
+    console.log('📊 fileProgresses changed:', fileProgresses)
+  }, [fileProgresses])
+
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFiles = Array.from(event.target.files || [])
     handleFileUpload(uploadedFiles)
@@ -147,12 +152,19 @@ function App() {
             <div className="list-header">
               <h3>Selected Files:</h3>
               <button
-                onClick={startConversion}
+                onClick={() => {
+                  console.log('🔥 BUTTON CLICKED!')
+                  console.log('🔍 startConversion function type:', typeof startConversion)
+                  startConversion()
+                }}
                 disabled={isConverting}
                 className="convert-btn"
               >
                 {isConverting ? 'Converting...' : 'Start Conversion'}
               </button>
+              <div style={{ fontSize: '10px', color: 'red', marginTop: '5px' }}>
+                DEBUG: isConverting={isConverting.toString()}, files.length={files.length}
+              </div>
             </div>
 
             {files.map((file, index) => {

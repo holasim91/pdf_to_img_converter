@@ -20,13 +20,13 @@ export const usePdfConverter = (): PdfConverterState & PdfConverterActions => {
   const [fileProgresses, setFileProgresses] = useState<FileProgress[]>([])
   const [options, setOptions] = useState<ConversionOptions>(DEFAULT_OPTIONS)
 
-  // DPI나 포맷 변경 시 진행상황 초기화
+  // DPI나 포맷 변경 시 진행상황 초기화 (변환 중이 아닐 때만)
   useEffect(() => {
-    if (fileProgresses.length > 0) {
+    if (fileProgresses.length > 0 && !isConverting) {
       console.log('Options changed, resetting progress:', { format: options.format, scale: options.scale })
       setFileProgresses([])
     }
-  }, [options.scale, options.format, fileProgresses.length])
+  }, [options.scale, options.format])
 
   const handleFileUpload = useCallback((newFiles: File[]) => {
     const uniqueNewFiles: File[] = []
@@ -64,9 +64,17 @@ export const usePdfConverter = (): PdfConverterState & PdfConverterActions => {
   }, [files])
 
   const startConversion = useCallback(async () => {
-    if (files.length === 0) return
+    console.log('🚨 ENTERING startConversion function!!!')
+    console.log('🎬 startConversion called!', { filesLength: files.length })
 
+    if (files.length === 0) {
+      console.log('❌ No files to convert')
+      return
+    }
+
+    console.log('📂 Files to convert:', files.map(f => f.name))
     setIsConverting(true)
+    console.log('🔄 isConverting set to true')
 
     // 기존 fileProgresses와 새로 추가된 파일들을 매칭
     const updatedProgresses = files.map((file, fileIndex) => {
@@ -93,18 +101,26 @@ export const usePdfConverter = (): PdfConverterState & PdfConverterActions => {
     setFileProgresses(updatedProgresses)
 
     // 변환이 필요한 파일들만 필터링 (이미 변환된 파일 제외)
+    console.log('🔍 Checking files to convert...')
+    console.log('📊 Current fileProgresses:', fileProgresses.length)
+    console.log('📄 Current files:', files.length)
+
     const filesToConvert = files.filter((_, fileIndex) => {
       const existingProgress = fileProgresses[fileIndex]
-      return !existingProgress || existingProgress.images.length === 0
+      const needsConversion = !existingProgress || existingProgress.images.length === 0
+      console.log(`📝 File ${fileIndex}: needs conversion = ${needsConversion}`)
+      return needsConversion
     })
 
+    console.log('📋 Files to convert:', filesToConvert.length)
+
     if (filesToConvert.length === 0) {
-      console.log('All files are already converted')
+      console.log('❌ All files are already converted')
       setIsConverting(false)
       return
     }
 
-    console.log(`Converting ${filesToConvert.length} new files...`)
+    console.log(`✅ Converting ${filesToConvert.length} new files...`)
 
     try {
       const results = await Promise.allSettled(
@@ -118,11 +134,13 @@ export const usePdfConverter = (): PdfConverterState & PdfConverterActions => {
             )
           })
 
-          setFileProgresses(prev =>
-            prev.map((fp, idx) =>
+          setFileProgresses(prev => {
+            const updated = prev.map((fp, idx) =>
               idx === fileIndex ? { ...fp, images } : fp
             )
-          )
+            console.log('🖼️ Updated fileProgresses:', updated)
+            return updated
+          })
 
           return { file, images }
         })

@@ -12,10 +12,21 @@ export async function convertPdfToImages(
 ): Promise<string[]> {
   const imageUrls: string[] = []
 
+  console.log('🚀 Starting PDF conversion:', {
+    fileName: file.name,
+    fileSize: file.size,
+    options
+  })
+
   try {
+    console.log('📄 Reading file as array buffer...')
     const arrayBuffer = await file.arrayBuffer()
+
+    console.log('🔄 Loading PDF document...', arrayBuffer.byteLength, 'bytes')
     const pdf = await pdfjsLib.getDocument(arrayBuffer).promise
     const totalPages = pdf.numPages
+
+    console.log('📋 PDF loaded successfully!', { totalPages })
 
     for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
       try {
