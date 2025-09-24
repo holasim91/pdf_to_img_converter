@@ -128,7 +128,7 @@ yarn test:coverage
 - ✅ 드래그앤드롭 버그 수정
 - ✅ SVG 아이콘 시스템 구축 (선택적 적용)
 
-## 🎨 SVG 아이콘 시스템
+## 🎨 SVG 아이콘 시스템(적용 X)
 
 프로젝트에는 전용 SVG 아이콘 컴포넌트들이 포함되어 있습니다:
 
@@ -183,27 +183,5 @@ import { PdfToImageLogo, UploadIcon, ProgressIcon, DownloadIcon } from './compon
 └── 📁 all_converted_files.zip (선택사항)
 ```
 
-## 🐛 알려진 이슈
 
-- 일부 테스트 케이스에서 타입 불일치 경고 (기능상 문제없음)
-- 대용량 PDF 파일 처리 시 브라우저 메모리 제한
 
-## 🤝 기여하기
-
-1. 이 저장소를 포크합니다
-2. 기능 브랜치를 생성합니다 (`git checkout -b feature/amazing-feature`)
-3. 변경사항을 커밋합니다 (`git commit -m 'Add amazing feature'`)
-4. 브랜치에 푸시합니다 (`git push origin feature/amazing-feature`)
-5. Pull Request를 열어주세요
-
-## 📄 라이선스
-
-이 프로젝트는 MIT 라이선스 하에 배포됩니다.
-
-## 📞 문의
-
-프로젝트에 대한 문의나 제안이 있으시면 이슈를 생성해 주세요.
-
----
-
-**Made with ❤️ using React + PDF.js**
