@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import './App.css'
 import { usePdfConverter } from './hooks/usePdfConverter'
+import { useDragAndDrop } from './hooks/useDragAndDrop'
 
 function App() {
   const {
@@ -16,7 +17,14 @@ function App() {
     removeFile
   } = usePdfConverter()
 
-  const [isDragging, setIsDragging] = useState(false)
+  const{
+    isDragging,
+    handleDragEnter,
+    handleDragLeave,
+    handleDragOver,
+    handleDrop,
+  } = useDragAndDrop(handleFileUpload)
+
 
   // 옵션 변화 모니터링
   useEffect(() => {
@@ -42,42 +50,6 @@ function App() {
     updateOptions({ scale })
   }
 
-  const handleDragEnter = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault()
-    event.stopPropagation()
-    setIsDragging(true)
-  }
-
-  const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault()
-    event.stopPropagation()
-    // relatedTarget이 현재 요소의 자식이 아닐 때만 dragging 상태 해제
-    if (!event.currentTarget.contains(event.relatedTarget as Node)) {
-      setIsDragging(false)
-    }
-  }
-
-  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault()
-    event.stopPropagation()
-    event.dataTransfer.dropEffect = 'copy'
-  }
-
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault()
-    event.stopPropagation()
-    setIsDragging(false)
-
-    const droppedFiles = Array.from(event.dataTransfer.files).filter(
-      file => file.type === 'application/pdf'
-    )
-
-    console.log('Dropped files:', droppedFiles)
-
-    if (droppedFiles.length > 0) {
-      handleFileUpload(droppedFiles)
-    }
-  }
 
   return (
     <div className="app">
