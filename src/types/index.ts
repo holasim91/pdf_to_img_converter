@@ -2,6 +2,7 @@ export interface ConversionOptions {
   format: 'png' | 'jpeg'
   quality?: number
   scale?: number
+  defaultSavePath?: string // 기본 저장 경로 (Tauri에서만 사용)
 }
 
 export interface ConversionProgress {

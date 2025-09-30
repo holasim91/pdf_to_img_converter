@@ -40,7 +40,9 @@ export const useDragAndDrop = (onFilesDropped: (files: File[]) => void) => {
     }
   };
   return {
+    // state
     isDragging,
+    // actions
     handleDragEnter,
     handleDragLeave,
     handleDragOver,

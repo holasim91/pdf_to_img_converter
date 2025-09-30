@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import './App.css'
 import { usePdfConverter } from './hooks/usePdfConverter'
 import { useDragAndDrop } from './hooks/useDragAndDrop'
+import { getSaveButtonText, getSaveAllButtonText } from './utils/textUtils'
 
 function App() {
   const {
@@ -51,6 +52,7 @@ function App() {
   }
 
 
+
   return (
     <div className="app">
       <header className="app-header">
@@ -85,9 +87,9 @@ function App() {
         {files.length > 0 && (
           <div className="options-section">
             <h3>Conversion Options</h3>
-            <div style={{ fontSize: '12px', color: '#666', marginBottom: '10px' }}>
+            {/* <div style={{ fontSize: '12px', color: '#666', marginBottom: '10px' }}>
               Debug: format={options.format}, scale={options.scale}, quality={options.quality}
-            </div>
+            </div> */}
             <div className="options-grid">
               <div className="option-group">
                 <label htmlFor="format-select">Format:</label>
@@ -115,6 +117,7 @@ function App() {
                   <option value={3.0}>450 DPI (Very High)</option>
                 </select>
               </div>
+
             </div>
           </div>
         )}
@@ -184,7 +187,7 @@ function App() {
                           onClick={() => downloadImages(index)}
                           className="download-btn"
                         >
-                          Download ({fileProgress.images.length} images)
+                          {getSaveButtonText(fileProgress.images.length)}
                         </button>
                       )}
                     </div>
@@ -198,7 +201,7 @@ function App() {
             {fileProgresses.some(fp => fp.images.length > 0) && (
               <div className="bulk-download">
                 <button onClick={downloadAllAsZip} className="download-all-btn">
-                  Download All as ZIP
+                  {getSaveAllButtonText()}
                 </button>
               </div>
             )}

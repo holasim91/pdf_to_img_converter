@@ -6,7 +6,7 @@ import type {
   FileProgress
 } from '../types'
 import { convertPdfToImages } from '../utils/pdfWorker'
-import { downloadFileImages, downloadAllFilesAsZip } from '../utils/downloadUtils'
+import { downloadFileImages, downloadAllAsDirectory } from '../utils/downloadUtils'
 
 const DEFAULT_OPTIONS: ConversionOptions = {
   format: 'png',
@@ -155,12 +155,13 @@ export const usePdfConverter = (): PdfConverterState & PdfConverterActions => {
   }, [files, options, fileProgresses])
 
   const downloadImages = useCallback(async (fileIndex: number) => {
+    console.log('DOWNLOAD IMAGES')
     const fileProgress = fileProgresses[fileIndex]
     await downloadFileImages(fileProgress, options)
   }, [fileProgresses, options])
 
   const downloadAllAsZip = useCallback(async () => {
-    await downloadAllFilesAsZip(fileProgresses, options)
+    await downloadAllAsDirectory(fileProgresses, options)
   }, [fileProgresses, options])
 
   const updateOptions = useCallback((newOptions: Partial<ConversionOptions>) => {
